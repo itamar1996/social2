@@ -20,16 +20,26 @@ class PostService {
         return __awaiter(this, void 0, void 0, function* () {
             const { authorId, content, heshtags, ref } = newPost;
             const post = new post_1.default(authorId, content, heshtags, ref);
-            let posts = yield (0, filleDataLayer_1.getFilleData)('posts');
+            let posts = (yield (0, filleDataLayer_1.getFilleData)("posts"));
             if (!posts)
                 posts = [];
             posts.push(post);
-            (0, filleDataLayer_1.saveFilleData)('posts', posts);
+            (0, filleDataLayer_1.saveFilleData)("posts", posts);
         });
     }
     static GetAllPosts() {
         return __awaiter(this, void 0, void 0, function* () {
-            let posts = yield (0, filleDataLayer_1.getFilleData)('posts');
+            let posts = (yield (0, filleDataLayer_1.getFilleData)("posts"));
+            if (!posts)
+                posts = [];
+            return posts;
+        });
+    }
+    static searchPostsByHeshtag(heshtag) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let posts = (yield (0, filleDataLayer_1.getFilleData)("posts"));
+            posts = posts.filter((po) => po.heshtags.includes(`#${heshtag}`));
+            // console.log(posts);
             if (!posts)
                 posts = [];
             return posts;

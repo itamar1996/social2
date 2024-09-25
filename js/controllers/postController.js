@@ -64,12 +64,15 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 }));
 // query params: ?title=x&date=23/04/2015
-router.get('/search', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/search/:heshtag', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const heshtag = req.params.heshtag;
+        const posts = yield postServices_1.PostService.searchPostsByHeshtag(heshtag);
+        console.log(posts);
         res.status(200).json({
             err: false,
             message: 'I was way too lazy to change the default message',
-            data: undefined
+            data: posts
         });
     }
     catch (err) {

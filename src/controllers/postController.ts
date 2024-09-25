@@ -61,16 +61,19 @@ router.post('/', async (
 })
 
 // query params: ?title=x&date=23/04/2015
-router.get('/search', async (
+router.get('/search/:heshtag', async (
     req:Request,
     res:Response
 ):Promise<void> => {
     try {
+        const heshtag = req.params.heshtag;        
+        const posts :Post[]=await PostService.searchPostsByHeshtag(heshtag);
+        console.log(posts);
         
         res.status(200).json({
             err: false,
             message: 'I was way too lazy to change the default message',
-            data: undefined
+            data: posts
         })
     } catch (err) {
         res.status(400).json({
