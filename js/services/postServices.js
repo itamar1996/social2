@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostService = void 0;
 const filleDataLayer_1 = require("../config/filleDataLayer");
 const post_1 = __importDefault(require("../models/post"));
+const userService_1 = require("./userService");
 class PostService {
     static createNewPost(newPost) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -49,6 +50,22 @@ class PostService {
             let posts = (yield (0, filleDataLayer_1.getFilleData)("posts"));
             const post = posts.find(p => p.id === postId);
             return post || null;
+        });
+    }
+    static addLike(userId, postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let posts = (yield (0, filleDataLayer_1.getFilleData)("posts"));
+            const post = posts.find(p => p.id === postId);
+            const user = yield userService_1.UserService.findUser(userId);
+            if (!user || !post) {
+                return false;
+            }
+            if (post.likesBy.includes(userId)) {
+                return false;
+            }
+            post === null || post === void 0 ? void 0 : post.likesBy.push(userId);
+            (0, filleDataLayer_1.saveFilleData)("posts", posts);
+            return true;
         });
     }
 }

@@ -1,6 +1,8 @@
 import { getFilleData, saveFilleData } from "../config/filleDataLayer";
 import Post from "../models/post";
 import NewPostDTO from "../DTO/postDTO";
+import { UserService } from "./userService";
+import User from "../models/user";
 export class PostService {
   public static async createNewPost(newPost: NewPostDTO): Promise<void> {
     const { authorId, content, heshtags, ref } = newPost;
@@ -28,6 +30,21 @@ export class PostService {
     const post: Post | undefined = posts.find(p => p.id === postId);
 
     return post || null;
+}
+public static async addLike(userId: string,postId:string): Promise<boolean> {    
+    let posts: Post[] = (await getFilleData<Post>("posts")) as Post[];
+    const post: Post | undefined = posts.find(p => p.id === postId);
+    const user:User = await UserService.findUser(userId) as User;
+    if(!user || !post){
+        return false;
+    }
+    if(post.likesBy.includes(userId))
+    {
+        return false;
+    }
+    post?.likesBy.push(userId);    
+    saveFilleData("posts",posts)
+    return true;
 }
 
   // public static async findUser(userId: string): Promise<User | undefined>{
