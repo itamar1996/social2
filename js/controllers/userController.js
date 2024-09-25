@@ -13,12 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const userService_1 = require("../services/userService");
 const router = express_1.default.Router();
 router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(req.headers);
+        console.log(req.method);
+        console.log(req.body);
+        const result = yield userService_1.UserService.createNewUser(req.body);
         res.status(200).json({
             err: false,
-            message: 'I was way too lazy to change the default message',
+            message: 'user created',
             data: undefined
         });
     }
@@ -32,11 +37,22 @@ router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, functio
 }));
 router.post('/follow', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.status(200).json({
-            err: false,
-            message: 'I was way too lazy to change the default message',
-            data: undefined
-        });
+        const { followerId, followingId } = req.body;
+        const result = yield userService_1.UserService.folow(followerId, followingId);
+        if (result) {
+            res.status(200).json({
+                err: false,
+                message: 'folow',
+                data: undefined
+            });
+        }
+        else {
+            res.status(400).json({
+                err: true,
+                message: 'I was way too lazy to change the default message',
+                data: null
+            });
+        }
     }
     catch (err) {
         res.status(400).json({
@@ -47,13 +63,24 @@ router.post('/follow', (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 }));
 //  ?key=value
-router.get('/search', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/search/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.status(200).json({
-            err: false,
-            message: 'I was way too lazy to change the default message',
-            data: undefined
-        });
+        const userId = req.params.id;
+        const user = yield userService_1.UserService.findUser(userId);
+        if (user) {
+            res.status(200).json({
+                err: false,
+                message: 'user found',
+                data: undefined
+            });
+        }
+        else {
+            res.status(400).json({
+                err: true,
+                message: 'user not found',
+                data: null
+            });
+        }
     }
     catch (err) {
         res.status(400).json({
@@ -64,13 +91,17 @@ router.get('/search', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 }));
 // ?type=MINE|ELSE
-router.get('/profile', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/profile/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.status(200).json({
-            err: false,
-            message: 'I was way too lazy to change the default message',
-            data: undefined
-        });
+        const userId = req.params.id;
+        const user = yield userService_1.UserService.findUser(userId);
+        if (user) {
+            res.status(200).json({
+                err: false,
+                message: 'user found',
+                data: user
+            });
+        }
     }
     catch (err) {
         res.status(400).json({
@@ -81,13 +112,17 @@ router.get('/profile', (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 }));
 // ?type=MINE|ELSE
-router.get('/followers', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/followers/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.status(200).json({
-            err: false,
-            message: 'I was way too lazy to change the default message',
-            data: undefined
-        });
+        const userId = req.params.id;
+        const user = yield userService_1.UserService.findUser(userId);
+        if (user) {
+            res.status(200).json({
+                err: false,
+                message: 'user found',
+                data: user.folowers
+            });
+        }
     }
     catch (err) {
         res.status(400).json({
@@ -98,13 +133,17 @@ router.get('/followers', (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 }));
 // ?type=MINE|ELSE
-router.get('/following', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/following/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.status(200).json({
-            err: false,
-            message: 'I was way too lazy to change the default message',
-            data: undefined
-        });
+        const userId = req.params.id;
+        const user = yield userService_1.UserService.findUser(userId);
+        if (user) {
+            res.status(200).json({
+                err: false,
+                message: 'user found',
+                data: user.folowing
+            });
+        }
     }
     catch (err) {
         res.status(400).json({
