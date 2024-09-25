@@ -39,10 +39,16 @@ class PostService {
         return __awaiter(this, void 0, void 0, function* () {
             let posts = (yield (0, filleDataLayer_1.getFilleData)("posts"));
             posts = posts.filter((po) => po.heshtags.includes(`#${heshtag}`));
-            // console.log(posts);
             if (!posts)
                 posts = [];
             return posts;
+        });
+    }
+    static searchPostsById(postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let posts = (yield (0, filleDataLayer_1.getFilleData)("posts"));
+            const post = posts.find(p => p.id === postId);
+            return post || null;
         });
     }
 }

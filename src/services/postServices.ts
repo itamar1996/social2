@@ -18,13 +18,17 @@ export class PostService {
   public static async searchPostsByHeshtag(heshtag: string): Promise<Post[]> {
     
     let posts: Post[] = (await getFilleData<Post>("posts")) as Post[];
-    posts = posts.filter((po) => po.heshtags.includes(`#${heshtag}`));
-
-    // console.log(posts);
-    
+    posts = posts.filter((po) => po.heshtags.includes(`#${heshtag}`));    
     if (!posts) posts = [];
     return posts;
   }
+  public static async searchPostsById(postId: string): Promise<Post | null> {
+    let posts: Post[] = (await getFilleData<Post>("posts")) as Post[];
+    
+    const post: Post | undefined = posts.find(p => p.id === postId);
+
+    return post || null;
+}
 
   // public static async findUser(userId: string): Promise<User | undefined>{
   //     let users:User[]= await getFilleData<User>('users') as User[];

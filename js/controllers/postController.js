@@ -85,10 +85,18 @@ router.get('/search/:heshtag', (req, res) => __awaiter(void 0, void 0, void 0, f
 }));
 router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const post = yield postServices_1.PostService.searchPostsById(req.params.id);
+        if (!post) {
+            res.status(400).json({
+                err: true,
+                message: 'post not found',
+                data: null
+            });
+        }
         res.status(200).json({
             err: false,
             message: 'I was way too lazy to change the default message',
-            data: undefined
+            data: post
         });
     }
     catch (err) {

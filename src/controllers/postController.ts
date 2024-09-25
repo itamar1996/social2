@@ -89,11 +89,18 @@ router.get('/:id', async (
     res:Response
 ):Promise<void> => {
     try {
-        
+        const post = await PostService.searchPostsById(req.params.id);
+        if(!post){
+            res.status(400).json({
+                err: true,
+                message: 'post not found',
+                data: null
+            })
+        }
         res.status(200).json({
             err: false,
             message: 'I was way too lazy to change the default message',
-            data: undefined
+            data: post
         })
     } catch (err) {
         res.status(400).json({
