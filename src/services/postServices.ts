@@ -12,6 +12,11 @@ export class PostService{
         posts.push(post);
         saveFilleData<Post>('posts',posts)
     }
+    public static async GetAllPosts(): Promise<Post[]>{
+        let posts:Post[]= await getFilleData<Post>('posts') as Post[];
+        if (!posts) posts  = []
+        return posts;
+    }
     // public static async findUser(userId: string): Promise<User | undefined>{
     //     let users:User[]= await getFilleData<User>('users') as User[];
     //     let user : User | undefined = users.find(u=>u.id==userId)

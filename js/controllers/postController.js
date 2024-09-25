@@ -17,10 +17,18 @@ const postServices_1 = require("../services/postServices");
 const router = express_1.default.Router();
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const data = yield postServices_1.PostService.GetAllPosts();
+        if (!data) {
+            res.status(400).json({
+                err: true,
+                message: 'falling to get posts',
+                data: null
+            });
+        }
         res.status(200).json({
             err: false,
             message: 'I was way too lazy to change the default message',
-            data: undefined
+            data: data
         });
     }
     catch (err) {
@@ -32,10 +40,15 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 }));
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("body", req.body);
     try {
-        console.log("body", req.body);
         const result = postServices_1.PostService.createNewPost(req.body);
+        if (!result) {
+            res.status(400).json({
+                err: true,
+                message: 'post not post',
+                data: null
+            });
+        }
         res.status(200).json({
             err: false,
             message: 'I was way too lazy to change the default message',

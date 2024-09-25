@@ -1,6 +1,7 @@
 import exp, { Request, Response, Router } from 'express'
 import NewPostDTO from '../DTO/postDTO'
 import { PostService } from '../services/postServices'
+import Post from '../models/post'
 
 const router:Router = exp.Router()
 
@@ -10,11 +11,18 @@ router.get('/', async (
     res:Response
 ):Promise<void> => {
     try {
-        
+        const data:Post[] =await PostService.GetAllPosts();   
+        if(!data){
+            res.status(400).json({
+                err: true,
+                message: 'falling to get posts',
+                data: null
+            })
+        }    
         res.status(200).json({
             err: false,
             message: 'I was way too lazy to change the default message',
-            data: undefined
+            data: data
         })
     } catch (err) {
         res.status(400).json({
@@ -29,12 +37,15 @@ router.post('/', async (
     req:Request<any,any, NewPostDTO>,
     res:Response
 ):Promise<void> => {
-    console.log("body",req.body);
-
-    try {
-        console.log("body",req.body);
-        
+    try {        
         const result = PostService.createNewPost(req.body)
+        if(!result){
+            res.status(400).json({
+                err: true,
+                message: 'post not post',
+                data: null
+            })
+        }
         res.status(200).json({
             err: false,
             message: 'I was way too lazy to change the default message',

@@ -27,5 +27,13 @@ class PostService {
             (0, filleDataLayer_1.saveFilleData)('posts', posts);
         });
     }
+    static GetAllPosts() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let posts = yield (0, filleDataLayer_1.getFilleData)('posts');
+            if (!posts)
+                posts = [];
+            return posts;
+        });
+    }
 }
 exports.PostService = PostService;
