@@ -12,11 +12,7 @@ router.post('/register', async (
 ):Promise<void> => {
     
     try {
-        console.log(req.headers);
-        console.log(req.method);
-        console.log(req.body);
-        const result = await UserService.createNewUser(req.body)  
-              
+        const result = await UserService.createNewUser(req.body)              
         res.status(200).json({
             err: false,
             message: 'user created',

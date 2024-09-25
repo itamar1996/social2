@@ -17,9 +17,6 @@ const userService_1 = require("../services/userService");
 const router = express_1.default.Router();
 router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.headers);
-        console.log(req.method);
-        console.log(req.body);
         const result = yield userService_1.UserService.createNewUser(req.body);
         res.status(200).json({
             err: false,

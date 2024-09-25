@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const postServices_1 = require("../services/postServices");
 const router = express_1.default.Router();
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -31,7 +32,10 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 }));
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("body", req.body);
     try {
+        console.log("body", req.body);
+        const result = postServices_1.PostService.createNewPost(req.body);
         res.status(200).json({
             err: false,
             message: 'I was way too lazy to change the default message',

@@ -1,4 +1,3 @@
-import fs from "fs/promises"
 import User from "../models/user"
 import NewUserDTO from "../DTO/userDTO"
 import { getFilleData, saveFilleData } from "../config/filleDataLayer"
