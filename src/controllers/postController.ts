@@ -92,13 +92,12 @@ router.get('/search/:heshtag', async (
     }
 });
 
-// חיפוש פוסט לפי ID
 router.get('/:id', async (
     req: Request,
     res: Response
 ): Promise<void> => {
     try {
-        const post = await PostService.searchPostsById(req.params.id);
+        const post:Post = await PostService.searchPostsById(req.params.id) as Post;
         
         if (!post) {
             res.status(404).json({
@@ -106,7 +105,7 @@ router.get('/:id', async (
                 message: 'Post not found',
                 data: null
             });
-            return; // הפסקת המשך הקוד
+            return;
         }
 
         res.status(200).json({

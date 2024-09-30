@@ -90,7 +90,6 @@ router.get('/search/:heshtag', (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
 }));
-// חיפוש פוסט לפי ID
 router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const post = yield postServices_1.PostService.searchPostsById(req.params.id);
@@ -100,7 +99,7 @@ router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 message: 'Post not found',
                 data: null
             });
-            return; // הפסקת המשך הקוד
+            return;
         }
         res.status(200).json({
             err: false,
